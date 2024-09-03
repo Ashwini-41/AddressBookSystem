@@ -6,10 +6,10 @@ import java.util.Scanner;
 
 public class AddressBook {
        
-	private List<Contact> contacts;
+	private Set<Contact> contacts;
 
     public AddressBook() {
-        contacts = new ArrayList<>();
+        contacts = new HashSet<>();
     }
 
     public void addContact(Contact contact) {
