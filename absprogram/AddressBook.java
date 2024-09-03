@@ -1,5 +1,7 @@
 package absprogram;
 import java.util.*;
+import java.util.stream.Collectors;
+
 import java.util.Iterator;
 import java.util.Optional;
 import java.util.Scanner;
@@ -29,6 +31,7 @@ public class AddressBook {
     private void addToStateMap(Contact contact) {
     	stateContactMap.computeIfAbsent(contact.getState(), k -> new ArrayList<>()).add(contact);
     }
+    
 	//edit
 	public boolean editContact(String firstName, String lastName) {
 		Optional<Contact> contactOpt = contacts.stream()
@@ -76,6 +79,18 @@ public class AddressBook {
 			
 			System.out.println("Contact not found. ");
 			return false;
+		}
+		
+		//sort by name
+		public void sortContactsByName() {
+			List<Contact> sortedContacts = contacts.stream()
+					.sorted(Comparator.comparing(Contact::getFirstName)
+					        .thenComparing(Contact::getLastName))
+					.collect(Collectors.toList());
+		
+			System.out.println("Contacts sorted alphabetically by name: ");
+			sortedContacts.forEach(System.out::println);
+				
 		}
 		
 		
