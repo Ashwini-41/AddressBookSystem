@@ -1,6 +1,7 @@
 package absprogram;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class AddressBookSystem {
 
@@ -20,7 +21,8 @@ public class AddressBookSystem {
 	        while (true) {
 	            System.out.println("1. Add New Address Book");
 	            System.out.println("2. Select Address Book");
-	            System.out.println("3. Exit");
+	            System.out.println("3. Search Contacts by City/State");
+	            System.out.println("4. Exit");
 	            System.out.print("Enter your choice: ");
 	            int choice = sc.nextInt();
 	            sc.nextLine(); 
@@ -33,6 +35,9 @@ public class AddressBookSystem {
 	                    selectAddressBook();
 	                    break;
 	                case 3:
+	                	searchContactsByCityOrState();
+	                    break;
+	                case 4:
 	                    System.out.println("Exiting...");
 	                    return;
 	                default:
@@ -40,6 +45,8 @@ public class AddressBookSystem {
 	            }
 	        }
 	    }
+	 
+	 
 	 
 	 private void addNewAddressBook() {
 	        System.out.print("Enter the name for the new Address Book: ");
@@ -162,5 +169,20 @@ public class AddressBookSystem {
         }
 
 	}
+	private void searchContactsByCityOrState() {
+        System.out.print("Enter City or State to search: ");
+        String location = sc.nextLine();
+
+        List<Contact> result = addressBooks.values().stream()
+                .flatMap(addressBook -> addressBook.getContacts().stream())
+                .filter(contact -> contact.getCity().equalsIgnoreCase(location) || contact.getState().equalsIgnoreCase(location))
+                .collect(Collectors.toList());
+
+        if (result.isEmpty()) {
+            System.out.println("No contacts found in the given city/state.");
+        } else {
+            result.forEach(System.out::println);
+        }
+    }
 	
 }

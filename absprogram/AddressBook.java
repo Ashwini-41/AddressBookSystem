@@ -75,4 +75,8 @@ public class AddressBook {
 				System.out.println(contact);
 			}
 		}
+		
+		public Set<Contact> getContacts(){
+			return contacts;
+		}
 }
