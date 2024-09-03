@@ -93,6 +93,37 @@ public class AddressBook {
 				
 		}
 		
+		//sort by city
+		public void sortContactsByCity() {
+			List<Contact> sortedContacts = contacts.stream()
+					.sorted(Comparator.comparing(Contact::getCity))
+					.collect(Collectors.toList());
+			
+			System.out.println("Contacts sorted by city: ");
+			sortedContacts.forEach(System.out::println);
+			
+		}
+		
+		//sort by state
+		public void sortContactsByState() {
+			List<Contact> sortedContacts = contacts.stream()
+					.sorted(Comparator.comparing(Contact::getState))
+					.collect(Collectors.toList());
+			
+			System.out.println("Contacts sorted by State: ");
+			sortedContacts.forEach(System.out::println);
+		}
+		
+		//sort by zipcode
+		public void sortContactsByZip() {
+	        List<Contact> sortedContacts = contacts.stream()
+	                .sorted(Comparator.comparing(Contact::getZip))
+	                .collect(Collectors.toList());
+
+	        System.out.println("Contacts sorted by Zip:");
+	        sortedContacts.forEach(System.out::println);
+		}
+		
 		
 		public Collection<Contact> getContacts(){
 			return contacts;

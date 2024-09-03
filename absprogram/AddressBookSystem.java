@@ -22,8 +22,8 @@ public class AddressBookSystem {
 	            System.out.println("1. Add New Address Book");
 	            System.out.println("2. Select Address Book");
 	            System.out.println("3. Search Contacts by City/State");
-	            System.out.println("4.View Contacts by City/State");
-	            System.out.println("5.Count contacts by City/State");
+	            System.out.println("4. View Contacts by City/State");
+	            System.out.println("5. Count contacts by City/State");
 	            System.out.println("6. Exit");
 	            System.out.print("Enter your choice: ");
 	            int choice = sc.nextInt();
@@ -86,7 +86,10 @@ public class AddressBookSystem {
 	            System.out.println("3. Edit Contact");
 	            System.out.println("4. Delete Contact");
 	            System.out.println("5. Sort Contacts By Name");
-	            System.out.println("5. Back to Main Menu");
+	            System.out.println("6. Sort Contacts By City");
+	            System.out.println("7. Sort Contacts By State");
+	            System.out.println("8. Sort Contacts By Zip");
+	            System.out.println("9. Back to Main Menu");
 	            System.out.print("Enter your choice: ");
 	            int choice = sc.nextInt();
 	            sc.nextLine(); 
@@ -106,7 +109,17 @@ public class AddressBookSystem {
 	                    break;
 	                case 5:
 	                	addressBook.sortContactsByName();
+	                	break;
 	                case 6:
+	                	addressBook.sortContactsByCity();
+	                    break;
+	                case 7:
+	                	addressBook.sortContactsByState();
+	                    break;
+	                case 8:
+	                	addressBook.sortContactsByZip();
+	                    break;
+	                case 9:
 	                    return;
 	                default:
 	                    System.out.println("Invalid choice. Please try again.");
@@ -255,6 +268,7 @@ public class AddressBookSystem {
 		System.out.println("Enter your choice");
 		
 		int choice = sc.nextInt();
+		sc.nextLine();
 		
 		switch(choice) {
 		case 1:
@@ -272,7 +286,7 @@ public class AddressBookSystem {
 
 	private void countContactsByCity() {
         System.out.print("Enter City to count contacts: ");
-        sc.next();
+        //sc.next();
         String city = sc.nextLine();
 
         long countCity = addressBooks.values().stream()
@@ -284,7 +298,7 @@ public class AddressBookSystem {
 
     private void countContactsByState() {
         System.out.print("Enter State to count contacts: ");
-        sc.next();
+        //sc.next();
         String state = sc.nextLine();
 
         long count = addressBooks.values().stream()
