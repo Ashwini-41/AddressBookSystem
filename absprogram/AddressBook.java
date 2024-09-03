@@ -6,16 +6,29 @@ import java.util.Scanner;
 
 public class AddressBook {
        
-	private Set<Contact> contacts;
+	private List<Contact> contacts;
+	private Map<String, List<Contact>> cityContactMap;
+    private Map<String, List<Contact>> stateContactMap;
 
     public AddressBook() {
-        contacts = new HashSet<>();
+        contacts = new ArrayList<>();
+        cityContactMap = new HashMap();
+        stateContactMap = new HashMap();
     }
 
     public void addContact(Contact contact) {
         contacts.add(contact);
+        addToCityMap(contact);
+        addToStateMap(contact);
     }
 
+    private void addToCityMap(Contact contact) {
+    	cityContactMap.computeIfAbsent(contact.getCity(), k -> new ArrayList<>()).add(contact);
+    }
+    
+    private void addToStateMap(Contact contact) {
+    	stateContactMap.computeIfAbsent(contact.getState(), k -> new ArrayList<>()).add(contact);
+    }
 	//edit
 	public boolean editContact(String firstName, String lastName) {
 		Optional<Contact> contactOpt = contacts.stream()
@@ -65,7 +78,24 @@ public class AddressBook {
 			return false;
 		}
 		
+		
+		public Collection<Contact> getContacts(){
+			return contacts;
+		}
+		
+		public List<Contact> getContactByCity(String city){
+			return cityContactMap.getOrDefault(city, Collections.emptyList());
+		}
+		
+		public List<Contact> getContactsByState(String state) {
+	        return stateContactMap.getOrDefault(state, Collections.emptyList());
+	    }
+		
+		public void printContacts() {
+	        contacts.forEach(System.out::println);
+	    }
 	//print contact
+		/*
 		public void printContacts() {
 			if (contacts.isEmpty()) {
 	            System.out.println("No contacts available.");
@@ -78,5 +108,6 @@ public class AddressBook {
 		
 		public Set<Contact> getContacts(){
 			return contacts;
-		}
+		} */
+		
 }

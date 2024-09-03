@@ -22,7 +22,8 @@ public class AddressBookSystem {
 	            System.out.println("1. Add New Address Book");
 	            System.out.println("2. Select Address Book");
 	            System.out.println("3. Search Contacts by City/State");
-	            System.out.println("4. Exit");
+	            System.out.println("4.View Contacts by City/State");
+	            System.out.println("5. Exit");
 	            System.out.print("Enter your choice: ");
 	            int choice = sc.nextInt();
 	            sc.nextLine(); 
@@ -38,6 +39,9 @@ public class AddressBookSystem {
 	                	searchContactsByCityOrState();
 	                    break;
 	                case 4:
+	                	viewContactsByCityOrState();
+	                	break;
+	                case 5:
 	                    System.out.println("Exiting...");
 	                    return;
 	                default:
@@ -184,5 +188,59 @@ public class AddressBookSystem {
             result.forEach(System.out::println);
         }
     }
+	
+	//view person 
+	private void viewContactsByCityOrState() {
+        System.out.println("1. View Contacts by City");
+        System.out.println("2. View Contacts by State");
+        System.out.print("Enter your choice: ");
+        int choice = sc.nextInt();
+        sc.nextLine();
+
+        switch (choice) {
+            case 1:
+                viewContactsByCity();
+                break;
+            case 2:
+                viewContactsByState();
+                break;
+            default:
+                System.out.println("Invalid choice. Please try again.");
+        }
+    }
+	
+	//view contact by city
+	private void viewContactsByCity() {
+        System.out.print("Enter City to view contacts: ");
+        String city = sc.nextLine();
+
+        List<Contact> result = addressBooks.values().stream()
+                .flatMap(addressBook -> addressBook.getContactByCity(city).stream())
+                .collect(Collectors.toList());
+
+        if (result.isEmpty()) {
+            System.out.println("No contacts found in the city.");
+        } else {
+            result.forEach(System.out::println);
+        }
+    }
+	
+	//view contact by state
+	private void viewContactsByState() {
+        System.out.print("Enter State to view contacts: ");
+        String state = sc.nextLine();
+
+        List<Contact> result = addressBooks.values().stream()
+                .flatMap(addressBook -> addressBook.getContactsByState(state).stream())
+                .collect(Collectors.toList());
+
+        if (result.isEmpty()) {
+            System.out.println("No contacts found in the state.");
+        } else {
+            result.forEach(System.out::println);
+        }
+    }
+ 
+	
 	
 }
