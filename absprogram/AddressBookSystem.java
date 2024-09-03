@@ -13,6 +13,9 @@ static Scanner sc = new Scanner(System.in);
 	}
 	
 	private static void addNewContacts() {
+		
+	while(true) {
+		
 		System.out.println("Enter first name: ");
 		String firstName = sc.nextLine();
 		System.out.println("Enter last name: ");
@@ -33,6 +36,14 @@ static Scanner sc = new Scanner(System.in);
 		Contact contact = new Contact(firstName,lastName,address,city,state,zip,phoneNumber,email);
 		addressBook.addContacts(contact);
 		System.out.println("Contact added successfully! ");
+		
+		System.out.println("Do you want to add another contact? (yes/no): ");
+		String response = sc.nextLine();
+		
+		if(!response.equalsIgnoreCase("yes")) {
+			break;
+		}
+	}
 		
 		
 	}
