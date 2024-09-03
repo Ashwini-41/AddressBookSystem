@@ -12,8 +12,8 @@ public class AddressBook {
 
     public AddressBook() {
         contacts = new ArrayList<>();
-        cityContactMap = new HashMap();
-        stateContactMap = new HashMap();
+        cityContactMap = new HashMap<>();
+        stateContactMap = new HashMap<>();
     }
 
     public void addContact(Contact contact) {
@@ -94,20 +94,6 @@ public class AddressBook {
 		public void printContacts() {
 	        contacts.forEach(System.out::println);
 	    }
-	//print contact
-		/*
-		public void printContacts() {
-			if (contacts.isEmpty()) {
-	            System.out.println("No contacts available.");
-	            return;
-	        }
-			for(Contact contact: contacts) {
-				System.out.println(contact);
-			}
-		}
-		
-		public Set<Contact> getContacts(){
-			return contacts;
-		} */
+	
 		
 }
