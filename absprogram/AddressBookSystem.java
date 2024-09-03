@@ -3,16 +3,103 @@ package absprogram;
 import java.util.*;
 
 public class AddressBookSystem {
-private List<Contact> contacts = new ArrayList<>();
 
-private static AddressBookSystem addressBook = new AddressBookSystem();
-static Scanner sc = new Scanner(System.in); 
+ private Map<String, AddressBook> addressBooks;
+ private static Scanner sc = new Scanner(System.in);
+ 
+ public AddressBookSystem() {
+     addressBooks = new HashMap<>();
+ }
+
+	public static void main(String[] args) {
+        AddressBookSystem system = new AddressBookSystem();
+        system.run();
+    }
 	
-	public void addContacts(Contact contact) {
-		contacts.add(contact);
-	}
+	 public void run() {
+	        while (true) {
+	            System.out.println("1. Add New Address Book");
+	            System.out.println("2. Select Address Book");
+	            System.out.println("3. Exit");
+	            System.out.print("Enter your choice: ");
+	            int choice = sc.nextInt();
+	            sc.nextLine(); 
+
+	            switch (choice) {
+	                case 1:
+	                    addNewAddressBook();
+	                    break;
+	                case 2:
+	                    selectAddressBook();
+	                    break;
+	                case 3:
+	                    System.out.println("Exiting...");
+	                    return;
+	                default:
+	                    System.out.println("Invalid choice. Please try again.");
+	            }
+	        }
+	    }
+	 
+	 private void addNewAddressBook() {
+	        System.out.print("Enter the name for the new Address Book: ");
+	        String name = sc.nextLine();
+	        if (addressBooks.containsKey(name)) {
+	            System.out.println("An Address Book with this name already exists.");
+	        } else {
+	            addressBooks.put(name, new AddressBook());
+	            System.out.println("Address Book '" + name + "' added successfully.");
+	        }
+	    }
+
+	 private void selectAddressBook() {
+	        System.out.print("Enter the name of the Address Book to select: ");
+	        String name = sc.nextLine();
+	        AddressBook addressBook = addressBooks.get(name);
+
+	        if (addressBook != null) {
+	            manageContacts(addressBook);
+	        } else {
+	            System.out.println("Address Book not found.");
+	        }
+	    }
+	 
+	 private void manageContacts(AddressBook addressBook) {
+	        while (true) {
+	            System.out.println("1. Add New Contact");
+	            System.out.println("2. Display Contacts");
+	            System.out.println("3. Edit Contact");
+	            System.out.println("4. Delete Contact");
+	            System.out.println("5. Back to Main Menu");
+	            System.out.print("Enter your choice: ");
+	            int choice = sc.nextInt();
+	            sc.nextLine(); 
+
+	            switch (choice) {
+	                case 1:
+	                    addNewContacts(addressBook);
+	                    break;
+	                case 2:
+	                    addressBook.printContacts();
+	                    break;
+	                case 3:
+	                    editContact(addressBook);
+	                    break;
+	                case 4:
+	                    deleteContact(addressBook);
+	                    break;
+	                case 5:
+	                    return;
+	                default:
+	                    System.out.println("Invalid choice. Please try again.");
+	            }
+	        }
+	    }
+
 	
-	private static void addNewContacts() {
+	
+	
+	private static void addNewContacts(AddressBook addressBook) {
 		
 	while(true) {
 		
@@ -34,7 +121,7 @@ static Scanner sc = new Scanner(System.in);
 		String email = sc.nextLine();
 		
 		Contact contact = new Contact(firstName,lastName,address,city,state,zip,phoneNumber,email);
-		addressBook.addContacts(contact);
+		addressBook.addContact(contact);
 		System.out.println("Contact added successfully! ");
 		
 		System.out.println("Do you want to add another contact? (yes/no): ");
@@ -48,39 +135,8 @@ static Scanner sc = new Scanner(System.in);
 		
 	}
 	
-	//edit
-	public boolean editContact(String firstName, String lastName) {
-		Optional<Contact> contactOpt = contacts.stream()
-				.filter(contact -> contact.getFirstName().equals(firstName) && contact.getLastName().equals(lastName))
-				.findFirst();
-		
-		if(contactOpt.isPresent()) {
-			Contact contact = contactOpt.get();
-			Scanner sc = new Scanner(System.in);
-			
-			System.out.println("Editing contact: " + contact);
-			System.out.println("Enter new Address: ");
-			contact.setAddress(sc.nextLine());
-			System.out.print("Enter new City: ");
-	         contact.setCity(sc.nextLine());
-	         System.out.print("Enter new State: ");
-	         contact.setState(sc.nextLine());
-	         System.out.print("Enter new Zip: ");
-	         contact.setZip(sc.nextLine());
-	         System.out.print("Enter new Phone Number: ");
-	         contact.setPhoneNumber(sc.nextLine());
-	         System.out.print("Enter new Email: ");
-	         contact.setEmail(sc.nextLine());
 
-	         System.out.println("Contact updated successfully.");
-			return true;
-		}else {
-			System.out.println("Contact not found.");
-			return false;
-		}
-	}
-	
-	private static void editContact() {
+	private static void editContact(AddressBook addressBook) {
 		System.out.println("Enter first name to the contact to edit: ");
 		String firstName = sc.nextLine();
 		System.out.print("Enter Last Name of the contact to edit: ");
@@ -93,24 +149,8 @@ static Scanner sc = new Scanner(System.in);
 		
 	}
 	
-	//delete contact
-	public boolean deleteContact(String firstName, String lastName) {
-		Iterator<Contact> iterator = contacts.iterator();
-		
-		while(iterator.hasNext()) {
-			Contact contact = iterator.next();
-			if(contact.getFirstName().equals(firstName) && contact.getLastName().equals(lastName)) {
-				iterator.remove();
-				System.out.println("Contact deleted successfully!!");
-				return true;
-			}
-		}
-		
-		System.out.println("Contact not found. ");
-		return false;
-	}
-	
-	private static void deleteContact() {
+
+	private static void deleteContact(AddressBook addressBook) {
 		System.out.print("Enter First Name of the contact to delete: ");
         String firstName = sc.nextLine();
         System.out.print("Enter Last Name of the contact to delete: ");
@@ -123,50 +163,4 @@ static Scanner sc = new Scanner(System.in);
 
 	}
 	
-	public void printContacts() {
-		for(Contact contact: contacts) {
-			System.out.println(contact);
-		}
-	}
-	public static void main(String[] args) {
-		System.out.println("Welcome to Address Book System Program");		
-		
-		while(true) {
-			System.out.println("1. Add New Contact");
-			System.out.println("2. Display Contact");
-			System.out.println("3. Edit Contact");
-			System.out.println("4. Delete Contact");
-			System.out.println("5. Exit ");
-			System.out.println("Enter your choice: ");
-			int choice = sc.nextInt();
-			sc.nextLine();
-			
-			switch(choice) {
-			case 1 :
-				addNewContacts();
-				break;
-				
-			case 2:
-				addressBook.printContacts();
-				break;
-			case 3:
-				editContact();
-				break;
-			case 4:
-				deleteContact();
-				break;
-			
-			case 5:
-				System.out.println("Exiting....");
-				return;
-				
-			default:
-				System.out.println("Invalid choice. Please try again. ");
-				
-			}
-			
-		}
-		
-	
-	}
 }
