@@ -82,6 +82,36 @@ static Scanner sc = new Scanner(System.in);
 		
 	}
 	
+	//delete contact
+	public boolean deleteContact(String firstName, String lastName) {
+		Iterator<Contact> iterator = contacts.iterator();
+		
+		while(iterator.hasNext()) {
+			Contact contact = iterator.next();
+			if(contact.getFirstName().equals(firstName) && contact.getLastName().equals(lastName)) {
+				iterator.remove();
+				System.out.println("Contact deleted successfully!!");
+				return true;
+			}
+		}
+		
+		System.out.println("Contact not found. ");
+		return false;
+	}
+	
+	private static void deleteContact() {
+		System.out.print("Enter First Name of the contact to delete: ");
+        String firstName = sc.nextLine();
+        System.out.print("Enter Last Name of the contact to delete: ");
+        String lastName = sc.nextLine();
+        
+        if(!addressBook.deleteContact(firstName, lastName)) {
+            System.out.println("Contact not found. Please check the name and try again.");
+
+        }
+
+	}
+	
 	public void printContacts() {
 		for(Contact contact: contacts) {
 			System.out.println(contact);
@@ -94,7 +124,8 @@ static Scanner sc = new Scanner(System.in);
 			System.out.println("1. Add New Contact");
 			System.out.println("2. Display Contact");
 			System.out.println("3. Edit Contact");
-			System.out.println("4. Exit ");
+			System.out.println("4. Delete Contact");
+			System.out.println("5. Exit ");
 			System.out.println("Enter your choice: ");
 			int choice = sc.nextInt();
 			sc.nextLine();
@@ -110,8 +141,11 @@ static Scanner sc = new Scanner(System.in);
 			case 3:
 				editContact();
 				break;
-			
 			case 4:
+				deleteContact();
+				break;
+			
+			case 5:
 				System.out.println("Exiting....");
 				return;
 				
