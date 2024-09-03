@@ -37,6 +37,51 @@ static Scanner sc = new Scanner(System.in);
 		
 	}
 	
+	//edit
+	public boolean editContact(String firstName, String lastName) {
+		Optional<Contact> contactOpt = contacts.stream()
+				.filter(contact -> contact.getFirstName().equals(firstName) && contact.getLastName().equals(lastName))
+				.findFirst();
+		
+		if(contactOpt.isPresent()) {
+			Contact contact = contactOpt.get();
+			Scanner sc = new Scanner(System.in);
+			
+			System.out.println("Editing contact: " + contact);
+			System.out.println("Enter new Address: ");
+			contact.setAddress(sc.nextLine());
+			System.out.print("Enter new City: ");
+	         contact.setCity(sc.nextLine());
+	         System.out.print("Enter new State: ");
+	         contact.setState(sc.nextLine());
+	         System.out.print("Enter new Zip: ");
+	         contact.setZip(sc.nextLine());
+	         System.out.print("Enter new Phone Number: ");
+	         contact.setPhoneNumber(sc.nextLine());
+	         System.out.print("Enter new Email: ");
+	         contact.setEmail(sc.nextLine());
+
+	         System.out.println("Contact updated successfully.");
+			return true;
+		}else {
+			System.out.println("Contact not found.");
+			return false;
+		}
+	}
+	
+	private static void editContact() {
+		System.out.println("Enter first name to the contact to edit: ");
+		String firstName = sc.nextLine();
+		System.out.print("Enter Last Name of the contact to edit: ");
+        String lastName = sc.nextLine();
+        
+        if(!addressBook.editContact(firstName, lastName)) {
+        	System.out.println("Contact not found. ");
+        }
+
+		
+	}
+	
 	public void printContacts() {
 		for(Contact contact: contacts) {
 			System.out.println(contact);
@@ -48,7 +93,8 @@ static Scanner sc = new Scanner(System.in);
 		while(true) {
 			System.out.println("1. Add New Contact");
 			System.out.println("2. Display Contact");
-			System.out.println("3. Exit ");
+			System.out.println("3. Edit Contact");
+			System.out.println("4. Exit ");
 			System.out.println("Enter your choice: ");
 			int choice = sc.nextInt();
 			sc.nextLine();
@@ -61,8 +107,11 @@ static Scanner sc = new Scanner(System.in);
 			case 2:
 				addressBook.printContacts();
 				break;
-			
 			case 3:
+				editContact();
+				break;
+			
+			case 4:
 				System.out.println("Exiting....");
 				return;
 				
